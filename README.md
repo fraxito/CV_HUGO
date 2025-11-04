@@ -1,179 +1,66 @@
-# Hugo Cisneros CV Website
+# HUGO CISNEROS AMENGUAL
+### Computer Science, Diploma in Cibersecurity
 
-A professional, modern CV website for Hugo Cisneros Amengual built with HTML5, Tailwind CSS, and vanilla JavaScript.
-
-## 🚀 Features
-
-- **Responsive Design**: Mobile-first approach, works perfectly on all devices
-- **Dark Mode**: Automatic system preference detection + manual toggle
-- **Accessibility**: WCAG AA compliant with proper ARIA labels, keyboard navigation, and semantic HTML
-- **SEO Optimized**: Meta tags, Open Graph, Twitter Cards, and JSON-LD structured data
-- **Performance**: No build tools, minimal dependencies, fast loading
-- **Contact Form**: Ready for Netlify Forms integration
-- **Downloadable CV**: Both PDF and Markdown versions available
-
-## 📁 Project Structure
-
-```
-CV_HUGO/
-├── index.html              # Main HTML file
-├── main.js                 # JavaScript for interactions and dark mode
-├── assets/
-│   ├── Hugo_Cisneros_CV.md    # CV in Markdown format
-│   ├── Hugo_Cisneros_CV.pdf   # CV in PDF format (add your PDF here)
-│   ├── profile.jpg            # Profile photo (add your photo here)
-│   └── favicon.svg            # Website favicon
-└── README.md               # This file
-```
-
-## 🛠️ Setup Instructions
-
-### Local Development
-
-1. **Clone or download** this project to your local machine
-
-2. **Add your assets**:
-   - Add your profile photo as `assets/profile.jpg`
-   - Add your CV PDF as `assets/Hugo_Cisneros_CV.pdf`
-
-3. **Open locally**:
-   - Simply open `index.html` in your web browser
-   - Or use a local server:
-     ```bash
-     # Using Python
-     python -m http.server 8000
-     
-     # Using PHP
-     php -S localhost:8000
-     
-     # Using Node.js (with http-server)
-     npx http-server
-     ```
-
-4. **View in browser**: 
-   - Navigate to `http://localhost:8000`
-
-### 🌐 Deployment
-
-#### Deploy to GitHub Pages
-
-1. Create a new GitHub repository
-2. Push your code:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-   git push -u origin main
-   ```
-3. Go to repository Settings → Pages
-4. Select "Deploy from branch" and choose `main` branch
-5. Your site will be live at `https://YOUR_USERNAME.github.io/YOUR_REPO/`
-
-#### Deploy to Netlify
-
-**Option 1: Drag & Drop**
-1. Go to [Netlify](https://www.netlify.com/)
-2. Sign up or log in
-3. Drag and drop your project folder to Netlify
-4. Done! Your site is live
-
-**Option 2: Git Integration**
-1. Push your code to GitHub/GitLab/Bitbucket
-2. Connect your repository to Netlify
-3. Configure:
-   - Build command: (leave empty)
-   - Publish directory: `/`
-4. Deploy!
-
-**Enable Netlify Forms:**
-The contact form is already configured with `data-netlify="true"`. Once deployed to Netlify, forms will automatically work!
-
-#### Deploy to Vercel
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run `vercel` in your project directory
-3. Follow the prompts
-4. Done!
-
-## 🎨 Customization
-
-### Colors
-The site uses a blue primary color scheme. To change it, modify the Tailwind config in `index.html`:
-
-```javascript
-tailwind.config = {
-    theme: {
-        extend: {
-            colors: {
-                primary: {
-                    // Change these values
-                    500: '#0ea5e9',
-                    600: '#0284c7',
-                    // ...
-                }
-            }
-        }
-    }
-}
-```
-
-### Content
-All content is in `index.html`. Simply search for the section you want to modify and update the text.
-
-### Profile Photo
-Replace `assets/profile.jpg` with your own photo. Recommended size: 400x400px or larger, square aspect ratio.
-
-### CV Files
-- Replace `assets/Hugo_Cisneros_CV.pdf` with your PDF
-- The Markdown version is already in place
-
-## 🔧 Technologies Used
-
-- **HTML5**: Semantic markup
-- **Tailwind CSS** (CDN): Utility-first styling
-- **JavaScript**: Vanilla JS for interactions
-- **No build tools**: Ready to run immediately
-
-## ✨ Features Breakdown
-
-### Accessibility
-- Semantic HTML5 landmarks (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`)
-- ARIA labels for interactive elements
-- Keyboard navigation support
-- Focus visible styles
-- Alt text for images
-
-### SEO
-- Optimized title and meta descriptions
-- Open Graph tags for social sharing
-- Twitter Card support
-- JSON-LD structured data (schema.org)
-- Semantic HTML structure
-
-### Performance
-- No external dependencies except Tailwind CDN
-- Lazy loading ready
-- Minimal JavaScript
-- Optimized assets structure
-
-### Dark Mode
-- Respects system preference (`prefers-color-scheme`)
-- Manual toggle with persistent storage
-- Smooth transitions
-
-## 📧 Contact
-
-Hugo Cisneros Amengual
-- Email: hugocisnerosamengual@gmail.com
-- Phone: (+34) 635 80 98 12
-- Location: Colmenar Viejo, Madrid, Spain
-
-## 📄 License
-
-This project is created for Hugo Cisneros Amengual's personal use.
+📧 **hugocisnerosamengual@gmail.com** | 📱 **(+34) 635 80 98 12** | 📍 *Colmenar Viejo, Community of Madrid, Spain*
 
 ---
 
-Built with ❤️ for professional opportunities
+## About Me
+I'm a Computer Science graduate passionate about AI, cybersecurity, and IoT. I enjoy exploring how intelligent systems can address real-world problems and how we can enhance the safety and security of technology. Whether diving into machine learning, working on secure networks, or connecting devices through IoT, I'm always excited to learn and build new things. I continually seek hands-on projects that allow me to apply my skills and continue growing in this ever-evolving field.
+
+---
+
+## Education
+**Universidad Francisco de Vitoria**  
+*Computer Science, Diploma in Cybersecurity* | 2021 – 2025  
+
+**Colegio Peñalvento**  
+*Bachelor of Technology – BTech* | 2019 – 2021  
+
+---
+
+## Languages
+- **Spanish (Native)**
+- **English (C1 Level)** | *British Council APTIS EPSOL*
+
+---
+
+## Volunteer
+- **Society of St Vincent de Paul (SSVP)** | May 2023 – Present | Social Services  
+- **Fundación Gil Gayarre** | Sep 2022 – Jun 2023 | Social Services  
+
+---
+
+## Experience
+
+### IT Support and Development Intern  
+**Universidad Francisco de Vitoria** | Oct 2024 – Jun 2025 | Internship  
+Developed the university’s attendance management portal independently, from planning to deployment, with guidance from a faculty mentor. Used modern technologies in an iterative agile workflow.  
+**Skills:** PostgreSQL · Prisma · Next.js · React · TypeScript · Docker · Iterative Agile Methodologies  
+
+### Computer Science Intern  
+**HEWLETT PACKARD CUSTOMER DELIVERY SERVICES SL** | Jan 2024 – Sep 2024 | Hybrid  
+End-to-end data analysis and application development for exploitation. Automation and Infrastructure as Code (IaC) using DevOps principles. Worked with various technologies to optimize processes.  
+**Skills:** Java · React.js · Apache Jena · Back-End Web Development · Graph Databases  
+
+### Product Owner  
+**De Haagse Hogeschool / The Hague University of Applied Sciences** | Sep 2023 – Jan 2024 | Remote  
+Served as Product Owner for an international collaboration project with Dutch partners. Led a cross-cultural team to deliver key project outcomes, ensuring alignment with stakeholders and managing project timelines and deliverables.  
+**Skills:** Project Management · Project Planning · Problem Solving · Teamwork  
+
+### IT Support and Development Intern  
+**Universidad Francisco de Vitoria** | Oct 2022 – Jun 2023 | Internship  
+Provided support in the computer lab. Assisted in incident resolution and user support. Collaborated with professors on research and innovation projects.  
+**Skills:** Web Applications · Computer Maintenance  
+
+---
+
+## Licenses & Certifications
+
+### Understanding the World Through Data  
+**edX** | Issued Dec 2023  
+**Skills:** Artificial Intelligence (AI) · Data Mining · Python (Programming Language)  
+
+### Certified Network Defender (CND)  
+**EC-Council** | Issued May 2025 *(Certification Id: ECC3526149807)*  
+**Skills:** Enterprise Network Security · Intrusion Detection & Prevention · Wireshark · Virtualization & Network Simulation  
