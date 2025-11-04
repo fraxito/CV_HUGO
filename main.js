@@ -151,3 +151,59 @@ document.head.appendChild(style);
 console.log('%c👋 Hello Recruiter!', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
 console.log('%cThanks for checking out Hugo\'s portfolio!', 'color: #666; font-size: 14px;');
 console.log('%cFeel free to reach out at hugocisnerosamengual@gmail.com', 'color: #666; font-size: 14px;');
+
+// Contact Form Handler
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contact-form');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Create mailto URL
+            const subject = encodeURIComponent(`Contact from ${name} - Portfolio`);
+            const body = encodeURIComponent(`Hi Hugo,
+
+${message}
+
+Best regards,
+${name}
+Email: ${email}
+            
+---
+Sent via your portfolio contact form`);
+            
+            const mailtoURL = `mailto:hugocisnerosamengual@gmail.com?subject=${subject}&body=${body}`;
+            
+            // Open email client
+            window.location.href = mailtoURL;
+            
+            // Optional: Show success message
+            const button = contactForm.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i data-lucide="check" class="w-5 h-5 inline mr-2"></i>Email Client Opened!';
+            button.disabled = true;
+            
+            // Re-initialize Lucide icons for the new check icon
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                contactForm.reset();
+                // Re-initialize Lucide icons for the mail icon
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }, 3000);
+        });
+    }
+});
