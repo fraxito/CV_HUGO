@@ -1,0 +1,15 @@
+# Placeholder for Hugo_Cisneros_CV.pdf
+
+Please export or convert the Markdown CV to PDF format and place it here.
+
+Instructions:
+1. Open Hugo_Cisneros_CV.md in a Markdown viewer or editor
+2. Export/Print to PDF
+3. Save as "Hugo_Cisneros_CV.pdf" in this assets folder
+
+Alternatively, you can:
+- Use online converters like https://www.markdowntopdf.com/
+- Use VS Code extensions like "Markdown PDF"
+- Use Pandoc: `pandoc Hugo_Cisneros_CV.md -o Hugo_Cisneros_CV.pdf`
+
+The PDF will be available for download on the website once added.

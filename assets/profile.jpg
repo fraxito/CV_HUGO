@@ -1,0 +1,18 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="400" fill="#0ea5e9"/>
+  
+  <!-- Avatar Circle -->
+  <circle cx="200" cy="160" r="70" fill="#ffffff" opacity="0.9"/>
+  
+  <!-- Body -->
+  <ellipse cx="200" cy="320" rx="100" ry="80" fill="#ffffff" opacity="0.9"/>
+  
+  <!-- Text -->
+  <text x="200" y="380" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" text-anchor="middle" font-weight="600">
+    Replace with your photo
+  </text>
+  <text x="200" y="395" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" opacity="0.9">
+    profile.jpg (400x400px)
+  </text>
+</svg>

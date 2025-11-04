@@ -1,0 +1,12 @@
+# Placeholder for profile.jpg
+
+Please add Hugo's profile photo here.
+
+Recommended specifications:
+- Format: JPG or PNG
+- Size: 400x400px or larger
+- Aspect ratio: 1:1 (square)
+- File name: profile.jpg
+- High quality, professional photo suitable for a CV/resume
+
+The photo will be displayed in a circular format on the website.
