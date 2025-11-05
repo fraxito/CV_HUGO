@@ -163,10 +163,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get form data
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
             
+            // Map subject values to readable text
+            const subjectMap = {
+                'general': 'General Inquiry',
+                'job': 'Job Opportunity',
+                'collaboration': 'Collaboration Proposal',
+                'other': 'Other'
+            };
+            
+            const subjectText = subjectMap[subject] || 'Contact Form';
+            
             // Create mailto URL
-            const subject = encodeURIComponent(`Contact from ${name} - Portfolio`);
+            const emailSubject = encodeURIComponent(`${subjectText} from ${name} - Portfolio`);
             const body = encodeURIComponent(`Hi Hugo,
 
 ${message}
@@ -174,20 +185,23 @@ ${message}
 Best regards,
 ${name}
 Email: ${email}
+Subject: ${subjectText}
             
 ---
 Sent via your portfolio contact form`);
             
-            const mailtoURL = `mailto:hugocisnerosamengual@gmail.com?subject=${subject}&body=${body}`;
+            const mailtoURL = `mailto:hugocisnerosamengual@gmail.com?subject=${emailSubject}&body=${body}`;
             
             // Open email client
             window.location.href = mailtoURL;
             
-            // Optional: Show success message
+            // Show success message
             const button = contactForm.querySelector('button[type="submit"]');
             const originalText = button.innerHTML;
             button.innerHTML = '<i data-lucide="check" class="w-5 h-5 inline mr-2"></i>Email Client Opened!';
             button.disabled = true;
+            button.classList.remove('from-primary-600', 'to-blue-600', 'hover:from-primary-700', 'hover:to-blue-700');
+            button.classList.add('bg-green-600');
             
             // Re-initialize Lucide icons for the new check icon
             if (typeof lucide !== 'undefined') {
@@ -198,8 +212,10 @@ Sent via your portfolio contact form`);
             setTimeout(() => {
                 button.innerHTML = originalText;
                 button.disabled = false;
+                button.classList.remove('bg-green-600');
+                button.classList.add('from-primary-600', 'to-blue-600', 'hover:from-primary-700', 'hover:to-blue-700');
                 contactForm.reset();
-                // Re-initialize Lucide icons for the mail icon
+                // Re-initialize Lucide icons for the send icon
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
