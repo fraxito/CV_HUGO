@@ -31,55 +31,48 @@ darkModeToggle?.addEventListener('click', () => {
     applyTheme(newTheme);
 });
 
-// Smooth Scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const headerOffset = 80;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing...');
+    
+    // Initialize smooth scrolling con delay para asegurar que todo esté cargado
+    setTimeout(() => {
+        initializeSmoothScrolling();
+        initializeSectionTransitions();
+        console.log('Smooth scrolling and section transitions initialized');
+    }, 100);
+    
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+        
+        // Ensure icons are perfectly centered after creation
+        setTimeout(() => {
+            const iconContainers = document.querySelectorAll('.w-12, .w-10, .w-8, .w-6');
+            iconContainers.forEach(container => {
+                if (container.classList.contains('h-12') || 
+                    container.classList.contains('h-10') || 
+                    container.classList.contains('h-8') || 
+                    container.classList.contains('h-6')) {
+                    
+                    const icon = container.querySelector('svg');
+                    if (icon) {
+                        container.style.display = 'flex';
+                        container.style.alignItems = 'center';
+                        container.style.justifyContent = 'center';
+                        container.style.position = 'relative';
+                        
+                        icon.style.position = 'absolute';
+                        icon.style.top = '50%';
+                        icon.style.left = '50%';
+                        icon.style.transform = 'translate(-50%, -50%)';
+                    }
+                }
             });
-        }
-    });
-});
-
-// Form handling
-const contactForm = document.querySelector('form[name="contact"]');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        // If not deployed on Netlify, prevent default and show alert
-        if (!contactForm.hasAttribute('data-netlify')) {
-            e.preventDefault();
-            alert('Form submitted! (Note: This is a demo. Deploy to Netlify to enable form submissions.)');
-            contactForm.reset();
-        }
-        // If on Netlify, the form will submit normally
-    });
-}
-
-// Intersection Observer for fade-in animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Apply fade-in to sections
-document.addEventListener('DOMContentLoaded', () => {
+        }, 100);
+    }
+    
+    // Apply fade-in to sections
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
         section.style.opacity = '0';
@@ -87,73 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(section);
     });
-});
-
-// Active navigation highlight on scroll
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('nav a[href^="#"]');
-
-const highlightNavigation = () => {
-    const scrollPosition = window.scrollY + 100;
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            navLinks.forEach(link => {
-                link.classList.remove('text-primary-600', 'dark:text-primary-400');
-                if (link.getAttribute('href') === `#${sectionId}`) {
-                    link.classList.add('text-primary-600', 'dark:text-primary-400');
-                }
-            });
-        }
-    });
-};
-
-window.addEventListener('scroll', highlightNavigation);
-
-// Add animation to skill badges on hover
-document.querySelectorAll('#skills span').forEach(badge => {
-    badge.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.05)';
-        this.style.transition = 'transform 0.2s ease';
-    });
     
-    badge.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-    });
-});
-
-// Accessibility: Focus visible styles
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-nav');
-    }
-});
-
-document.addEventListener('mousedown', () => {
-    document.body.classList.remove('keyboard-nav');
-});
-
-// Add focus visible styles
-const style = document.createElement('style');
-style.textContent = `
-    .keyboard-nav *:focus {
-        outline: 2px solid #0ea5e9;
-        outline-offset: 2px;
-    }
-`;
-document.head.appendChild(style);
-
-// Console message for recruiters
-console.log('%c👋 Hello Recruiter!', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
-console.log('%cThanks for checking out Hugo\'s portfolio!', 'color: #666; font-size: 14px;');
-console.log('%cFeel free to reach out at hugocisnerosamengual@gmail.com', 'color: #666; font-size: 14px;');
-
-// Contact Form Handler
-document.addEventListener('DOMContentLoaded', function() {
+    // Initialize contact form
     const contactForm = document.getElementById('contact-form');
     
     if (contactForm) {
@@ -222,4 +150,211 @@ Sent via your portfolio contact form`);
             }, 3000);
         });
     }
+});
+
+// Smooth Scrolling for anchor links - Versión simplificada y robusta
+function initializeSmoothScrolling() {
+    // Remover listeners existentes primero
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        const newAnchor = anchor.cloneNode(true);
+        anchor.parentNode.replaceChild(newAnchor, anchor);
+    });
+    
+    // Añadir nuevos listeners
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const targetId = this.getAttribute('href');
+            console.log('Clicked link to:', targetId);
+            
+            if (targetId === '#') return;
+            
+            const target = document.querySelector(targetId);
+            
+            if (target) {
+                console.log('Target found:', target);
+                
+                // SOLUCIÓN: Asegurar que el target sea visible antes del scroll
+                target.style.opacity = '1';
+                target.style.transform = 'translateY(0)';
+                
+                // Offset para el header sticky
+                const isMobile = window.innerWidth < 768;
+                const headerOffset = isMobile ? 90 : 70;
+                
+                // Usar scrollIntoView que es más confiable
+                setTimeout(() => {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Ajuste manual después del scroll automático
+                    setTimeout(() => {
+                        const currentPosition = window.pageYOffset;
+                        const adjustedPosition = currentPosition - headerOffset;
+                        
+                        window.scrollTo({
+                            top: Math.max(0, adjustedPosition),
+                            behavior: 'smooth'
+                        });
+                        
+                        console.log('Scrolled with header adjustment');
+                    }, 100);
+                }, 50);
+                
+            } else {
+                console.error('Target not found for:', targetId);
+            }
+        });
+    });
+}
+
+// Form handling
+const contactForm = document.querySelector('form[name="contact"]');
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        // If not deployed on Netlify, prevent default and show alert
+        if (!contactForm.hasAttribute('data-netlify')) {
+            e.preventDefault();
+            alert('Form submitted! (Note: This is a demo. Deploy to Netlify to enable form submissions.)');
+            contactForm.reset();
+        }
+        // If on Netlify, the form will submit normally
+    });
+}
+
+// Intersection Observer for fade-in animations - Mejorado para smooth scrolling
+const observerOptions = {
+    threshold: 0.05,
+    rootMargin: '0px 0px -30px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Función auxiliar para hacer visible una sección específica
+function makeVisibleSection(sectionId) {
+    const section = document.querySelector(sectionId);
+    if (section) {
+        section.style.opacity = '1';
+        section.style.transform = 'translateY(0)';
+        section.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    }
+}
+
+// Apply fade-in to sections - moved to main DOMContentLoaded
+
+// Active navigation highlight on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+const highlightNavigation = () => {
+    const scrollPosition = window.scrollY + 100;
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            navLinks.forEach(link => {
+                link.classList.remove('text-primary-600', 'dark:text-primary-400');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('text-primary-600', 'dark:text-primary-400');
+                }
+            });
+        }
+    });
+};
+
+window.addEventListener('scroll', highlightNavigation);
+
+// Add animation to skill badges on hover
+document.querySelectorAll('#skills span').forEach(badge => {
+    badge.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.05)';
+        this.style.transition = 'transform 0.2s ease';
+    });
+    
+    badge.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+    });
+});
+
+// Accessibility: Focus visible styles
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+        document.body.classList.add('keyboard-nav');
+    }
+});
+
+document.addEventListener('mousedown', () => {
+    document.body.classList.remove('keyboard-nav');
+});
+
+// Add focus visible styles
+const style = document.createElement('style');
+style.textContent = `
+    .keyboard-nav *:focus {
+        outline: 2px solid #0ea5e9;
+        outline-offset: 2px;
+    }
+`;
+document.head.appendChild(style);
+
+// Console message for recruiters
+console.log('%c👋 Hello Recruiter!', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
+console.log('%cThanks for checking out Hugo\'s portfolio!', 'color: #666; font-size: 14px;');
+console.log('%cFeel free to reach out at hugocisnerosamengual@gmail.com', 'color: #666; font-size: 14px;');
+
+// Enhanced Section Transitions
+function initializeSectionTransitions() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '-10% 0px -10% 0px'
+    };
+    
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Initialize section animations
+    document.querySelectorAll('section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        sectionObserver.observe(section);
+    });
+    
+    // Set hero section visible immediately
+    const heroSection = document.getElementById('hero') || document.querySelector('section');
+    if (heroSection) {
+        heroSection.style.opacity = '1';
+        heroSection.style.transform = 'translateY(0)';
+    }
+}
+
+// Contact Form Handler - moved to main DOMContentLoaded
+
+// Re-initialize smooth scrolling after window load (por si falla en DOMContentLoaded)
+window.addEventListener('load', function() {
+    console.log('Window fully loaded, re-initializing smooth scrolling...');
+    setTimeout(() => {
+        initializeSmoothScrolling();
+        console.log('Smooth scrolling re-initialized after window load');
+    }, 200);
 });
