@@ -311,10 +311,11 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Console message for recruiters
-console.log('%c👋 Hello Recruiter!', 'color: #0ea5e9; font-size: 20px; font-weight: bold;');
-console.log('%cThanks for checking out Hugo\'s portfolio!', 'color: #666; font-size: 14px;');
-console.log('%cFeel free to reach out at hugocisnerosamengual@gmail.com', 'color: #666; font-size: 14px;');
+// Console message for developers and recruiters
+console.log('%cHello there, developer!', 'color: #0ea5e9; font-size: 18px; font-weight: bold;');
+console.log('%cI see you are exploring the code behind my portfolio. I appreciate your curiosity!', 'color: #666; font-size: 14px;');
+console.log('%cIf you like what you see, let\'s connect: hugocisnerosamengual@gmail.com', 'color: #666; font-size: 14px;');
+console.log('%cPS: This portfolio is built with modern web technologies and clean code practices.', 'color: #888; font-size: 12px; font-style: italic;');
 
 // Enhanced Section Transitions
 function initializeSectionTransitions() {
