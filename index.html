@@ -503,6 +503,22 @@
         header a {
             position: relative;
         }
+        
+        /* Mejorar enlaces en móviles */
+        @media (pointer: coarse) {
+            a[href^="#"] {
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+                cursor: pointer;
+            }
+            
+            /* Asegurar que los botones del navbar sean táctiles */
+            header a, header button {
+                min-height: 44px;
+                min-width: 44px;
+                touch-action: manipulation;
+            }
+        }
     </style>
 
     <!-- JSON-LD Structured Data -->

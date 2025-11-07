@@ -42,6 +42,22 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Smooth scrolling and section transitions initialized');
     }, 100);
     
+    // Fallback para móviles - si smooth scrolling falla, usar método básico
+    if ('ontouchstart' in window) {
+        console.log('Touch device detected, adding fallback...');
+        setTimeout(() => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('touchstart', function() {
+                    // Preparar para el click en móvil
+                    this.style.opacity = '0.7';
+                });
+                anchor.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+        }, 200);
+    }
+    
     // Initialize Lucide icons
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
@@ -154,62 +170,49 @@ Sent via your portfolio contact form`);
 
 // Smooth Scrolling for anchor links - Versión simplificada y robusta
 function initializeSmoothScrolling() {
-    // Remover listeners existentes primero
+    // Añadir listeners para todos los enlaces de anchor
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        const newAnchor = anchor.cloneNode(true);
-        anchor.parentNode.replaceChild(newAnchor, anchor);
+        // Remover listener existente si existe
+        anchor.removeEventListener('click', handleAnchorClick);
+        // Añadir nuevo listener
+        anchor.addEventListener('click', handleAnchorClick);
     });
+}
+
+function handleAnchorClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
     
-    // Añadir nuevos listeners
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const targetId = this.getAttribute('href');
-            console.log('Clicked link to:', targetId);
-            
-            if (targetId === '#') return;
-            
-            const target = document.querySelector(targetId);
-            
-            if (target) {
-                console.log('Target found:', target);
-                
-                // SOLUCIÓN: Asegurar que el target sea visible antes del scroll
-                target.style.opacity = '1';
-                target.style.transform = 'translateY(0)';
-                
-                // Offset para el header sticky
-                const isMobile = window.innerWidth < 768;
-                const headerOffset = isMobile ? 90 : 70;
-                
-                // Usar scrollIntoView que es más confiable
-                setTimeout(() => {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    
-                    // Ajuste manual después del scroll automático
-                    setTimeout(() => {
-                        const currentPosition = window.pageYOffset;
-                        const adjustedPosition = currentPosition - headerOffset;
-                        
-                        window.scrollTo({
-                            top: Math.max(0, adjustedPosition),
-                            behavior: 'smooth'
-                        });
-                        
-                        console.log('Scrolled with header adjustment');
-                    }, 100);
-                }, 50);
-                
-            } else {
-                console.error('Target not found for:', targetId);
-            }
+    const targetId = this.getAttribute('href');
+    console.log('Clicked link to:', targetId);
+    
+    if (targetId === '#') return;
+    
+    const target = document.querySelector(targetId);
+    
+    if (target) {
+        console.log('Target found:', target);
+        
+        // Calcular offset del header sticky
+        const header = document.querySelector('header');
+        const headerHeight = header ? header.offsetHeight : 80;
+        const isMobile = window.innerWidth < 768;
+        const additionalOffset = isMobile ? 20 : 10;
+        const totalOffset = headerHeight + additionalOffset;
+        
+        // Obtener posición del target
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - totalOffset;
+        
+        // Scroll suave
+        window.scrollTo({
+            top: Math.max(0, targetPosition),
+            behavior: 'smooth'
         });
-    });
+        
+        console.log('Scrolled to target with offset:', totalOffset);
+    } else {
+        console.error('Target not found for:', targetId);
+    }
 }
 
 // Form handling
