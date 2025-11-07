@@ -519,6 +519,27 @@
                 touch-action: manipulation;
             }
         }
+        
+        /* Específico para Safari */
+        @supports (-webkit-appearance: none) {
+            html {
+                scroll-behavior: auto !important;
+            }
+            
+            a[href^="#"] {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            
+            /* Safari iOS específico */
+            @media screen and (-webkit-min-device-pixel-ratio: 2) {
+                a[href^="#"]:active {
+                    background-color: rgba(0,0,0,0.1);
+                    border-radius: 4px;
+                }
+            }
+        }
     </style>
 
     <!-- JSON-LD Structured Data -->
@@ -597,7 +618,9 @@
 
                     <!-- Contact Button -->
                     <a href="#contact"
+                        onclick="console.log('Contact button clicked direct'); event.preventDefault(); document.getElementById('contact').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
                         class="p-2 md:px-3 md:py-1.5 bg-blue-600/90 hover:bg-blue-700 rounded-md transition-colors backdrop-blur-sm flex items-center justify-center gap-2"
+                        style="-webkit-tap-highlight-color: rgba(0,0,0,0); touch-action: manipulation;"
                         aria-label="Contact">
                         <svg class="w-4 h-4 text-white md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

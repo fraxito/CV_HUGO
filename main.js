@@ -35,6 +35,14 @@ darkModeToggle?.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing...');
     
+    // Polyfill para Safari scroll behavior
+    if (!('scrollBehavior' in document.documentElement.style)) {
+        console.log('Adding smooth scroll polyfill for Safari');
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/gh/iamdustan/smoothscroll@master/src/smoothscroll.js';
+        document.head.appendChild(script);
+    }
+    
     // Initialize smooth scrolling con delay para asegurar que todo esté cargado
     setTimeout(() => {
         initializeSmoothScrolling();
@@ -42,17 +50,127 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Smooth scrolling and section transitions initialized');
     }, 100);
     
-    // Fallback para móviles - si smooth scrolling falla, usar método básico
-    if ('ontouchstart' in window) {
-        console.log('Touch device detected, adding fallback...');
+    // Fallback específico para Safari en iOS
+    const isSafariMobile = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
+    console.log('User Agent:', navigator.userAgent);
+    console.log('isSafariMobile:', isSafariMobile);
+    
+    if (isSafariMobile) {
+        console.log('Safari mobile detected, using enhanced fallback...');
+        
+        // Verificar que el botón de contacto existe
+        const contactButton = document.querySelector('a[href="#contact"]');
+        console.log('Contact button found:', contactButton);
+        if (contactButton) {
+            console.log('Contact button text:', contactButton.textContent);
+        }
+        
+        // Añadir event listener adicional específico para Safari móvil
         setTimeout(() => {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('touchstart', function() {
-                    // Preparar para el click en móvil
-                    this.style.opacity = '0.7';
-                });
-                anchor.addEventListener('touchend', function() {
-                    this.style.opacity = '1';
+                let touchStartTime = 0;
+                let touchStartY = 0;
+                let touchStartX = 0;
+                
+                // Capturar datos del toque inicial
+                anchor.addEventListener('touchstart', function(e) {
+                    touchStartTime = Date.now();
+                    if (e.touches && e.touches[0]) {
+                        touchStartY = e.touches[0].clientY;
+                        touchStartX = e.touches[0].clientX;
+                    }
+                    this.style.webkitTapHighlightColor = 'transparent';
+                }, { passive: true });
+                
+                anchor.addEventListener('touchend', function(e) {
+                    const touchDuration = Date.now() - touchStartTime;
+                    let touchMoveY = 0;
+                    let touchMoveX = 0;
+                    
+                    if (e.changedTouches && e.changedTouches[0]) {
+                        touchMoveY = Math.abs(e.changedTouches[0].clientY - touchStartY);
+                        touchMoveX = Math.abs(e.changedTouches[0].clientX - touchStartX);
+                    }
+                    
+                    console.log('Safari mobile touchend triggered', {
+                        duration: touchDuration,
+                        moveY: touchMoveY,
+                        moveX: touchMoveX
+                    });
+                    
+                    // Solo procesar toques rápidos sin mucho movimiento (no scroll)
+                    if (touchDuration < 500 && touchMoveY < 15 && touchMoveX < 15) {
+                        const targetId = this.getAttribute('href');
+                        const target = document.querySelector(targetId);
+                        
+                        if (target && targetId !== '#') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            console.log('Safari mobile - navegando suavemente a:', targetId);
+                            
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 80;
+                            const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                            const targetPosition = Math.max(0, targetTop);
+                            
+                            // Animación manual suave para Safari móvil
+                            const startPosition = window.pageYOffset;
+                            const distance = targetPosition - startPosition;
+                            const duration = 800;
+                            let start = null;
+                            
+                            function smoothScroll(currentTime) {
+                                if (start === null) start = currentTime;
+                                const timeElapsed = currentTime - start;
+                                const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
+                                window.scrollTo(0, run);
+                                if (timeElapsed < duration) {
+                                    requestAnimationFrame(smoothScroll);
+                                }
+                            }
+                            
+                            function easeInOutQuad(t, b, c, d) {
+                                t /= d / 2;
+                                if (t < 1) return c / 2 * t * t + b;
+                                t--;
+                                return -c / 2 * (t * (t - 2) - 1) + b;
+                            }
+                            
+                            requestAnimationFrame(smoothScroll);
+                            
+                            // Fallback adicional si la animación falla
+                            setTimeout(() => {
+                                if (Math.abs(window.pageYOffset - targetPosition) > 50) {
+                                    console.log('Animation failed, using direct scroll');
+                                    window.scrollTo(0, targetPosition);
+                                }
+                            }, 1000);
+                        }
+                    }
+                }, { passive: false });
+                
+                // Método alternativo: click event
+                anchor.addEventListener('click', function(e) {
+                    console.log('Click event triggered on Safari mobile');
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        e.preventDefault();
+                        console.log('Processing click for:', targetId);
+                        
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            const header = document.querySelector('header');
+                            const headerHeight = header ? header.offsetHeight : 80;
+                            const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                            window.scrollTo(0, Math.max(0, targetTop));
+                        }
+                    }
+                }, { passive: false });
+                
+                // Prevenir menú contextual en toques largos
+                anchor.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
                 });
             });
         }, 200);
@@ -193,21 +311,37 @@ function handleAnchorClick(e) {
     if (target) {
         console.log('Target found:', target);
         
+        // Detectar Safari
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        const isMobile = window.innerWidth < 768;
+        
         // Calcular offset del header sticky
         const header = document.querySelector('header');
         const headerHeight = header ? header.offsetHeight : 80;
-        const isMobile = window.innerWidth < 768;
         const additionalOffset = isMobile ? 20 : 10;
         const totalOffset = headerHeight + additionalOffset;
         
         // Obtener posición del target
         const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - totalOffset;
         
-        // Scroll suave
-        window.scrollTo({
-            top: Math.max(0, targetPosition),
-            behavior: 'smooth'
-        });
+        if (isSafari || isMobile) {
+            // Para Safari y móviles: método más directo
+            console.log('Using direct scroll for Safari/mobile');
+            
+            // Scroll inmediato sin smooth para Safari
+            window.scrollTo(0, Math.max(0, targetPosition));
+            
+            // Safari a veces necesita un pequeño delay
+            setTimeout(() => {
+                window.scrollTo(0, Math.max(0, targetPosition));
+            }, 10);
+        } else {
+            // Para otros navegadores: smooth scroll
+            window.scrollTo({
+                top: Math.max(0, targetPosition),
+                behavior: 'smooth'
+            });
+        }
         
         console.log('Scrolled to target with offset:', totalOffset);
     } else {
@@ -360,5 +494,67 @@ window.addEventListener('load', function() {
     setTimeout(() => {
         initializeSmoothScrolling();
         console.log('Smooth scrolling re-initialized after window load');
+        
+        // MÉTODO DE FUERZA BRUTA PARA SAFARI MÓVIL
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+            console.log('SAFARI MOBILE: Setting up direct contact navigation...');
+            
+            // Encontrar TODOS los enlaces al contacto
+            const allContactLinks = document.querySelectorAll('a[href="#contact"], a[href*="contact"]');
+            console.log('Contact links found:', allContactLinks.length);
+            
+            allContactLinks.forEach((link, index) => {
+                console.log(`Setting up link ${index}:`, link);
+                
+                // Función de navegación directa
+                const directNavigate = function(e) {
+                    console.log('DIRECT NAVIGATE TRIGGERED');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                        console.log('Contact section found, scrolling...');
+                        
+                        // Múltiples intentos de scroll
+                        const headerHeight = 80;
+                        const targetY = contactSection.offsetTop - headerHeight;
+                        
+                        // Intento 1: scrollIntoView
+                        contactSection.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                        
+                        // Intento 2: scrollTo smooth
+                        setTimeout(() => {
+                            window.scrollTo({ 
+                                top: targetY, 
+                                behavior: 'smooth' 
+                            });
+                        }, 100);
+                        
+                        // Intento 3: scrollTo directo
+                        setTimeout(() => {
+                            window.scrollTo(0, targetY);
+                            console.log('Direct scroll to:', targetY);
+                        }, 300);
+                    } else {
+                        console.error('Contact section not found!');
+                    }
+                };
+                
+                // Remover todos los listeners anteriores y añadir el nuevo
+                const newLink = link.cloneNode(true);
+                link.parentNode.replaceChild(newLink, link);
+                
+                // Múltiples eventos para asegurar que funcione
+                newLink.addEventListener('click', directNavigate);
+                newLink.addEventListener('touchend', directNavigate);
+                newLink.addEventListener('touchstart', function() {
+                    console.log('Contact link touched');
+                });
+            });
+        }
     }, 200);
 });
