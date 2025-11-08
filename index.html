@@ -542,6 +542,164 @@
                 }
             }
         }
+
+        /* ========== ANIMACIONES MEJORADAS ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Clases de animación - se ejecutan automáticamente */
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        /* Hover effects mejorados para skill badges */
+        .skill-badge {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .skill-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .skill-badge:hover::before {
+            left: 100%;
+        }
+
+        .skill-badge:hover {
+            transform: translateY(-3px) scale(1.08);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.25);
+        }
+
+        .skill-badge:active {
+            transform: translateY(-1px) scale(1.05);
+        }
+
+        /* Parallax effect mejorado */
+        .parallax-layer {
+            transition: transform 0.15s ease-out, opacity 0.3s ease-out;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* Stagger animation delays */
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+        .stagger-7 { animation-delay: 0.7s; }
+        .stagger-8 { animation-delay: 0.8s; }
+
+        /* Card hover effects mejorados */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+        }
+
+        /* Glow effect para la foto de perfil */
+        .glow-on-hover {
+            position: relative;
+        }
+
+        .glow-on-hover::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+            border-radius: inherit;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s;
+            filter: blur(15px);
+        }
+
+        .glow-on-hover:hover::after {
+            opacity: 0.7;
+        }
+
+        /* Reducir animaciones para usuarios sensibles al movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .parallax-layer {
+                transform: none !important;
+            }
+        }
     </style>
 
     <!-- JSON-LD Structured Data -->
@@ -652,48 +810,47 @@
 
     <main role="main">
         <!-- Hero Section -->
-        <section
+        <section id="hero-section"
             class="relative bg-gradient-to-br from-blue-50 via-indigo-50/40 to-purple-50/20 dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/10 py-12 md:py-16 lg:py-24 overflow-hidden transition-all duration-1000">
             <!-- Animated background gradient -->
             <div
                 class="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-indigo-50/30 to-purple-100/15 dark:from-blue-900/30 dark:via-indigo-900/20 dark:to-purple-900/10 animate-gradient">
             </div>
 
-            <!-- Floating background elements -->
+            <!-- Floating background elements with parallax -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
                 <div
-                    class="absolute -top-20 md:-top-40 -right-20 md:-right-40 w-40 md:w-80 h-40 md:h-80 rounded-full bg-accent-200/10 dark:bg-accent-400/5 animate-float">
+                    class="parallax-layer absolute -top-20 md:-top-40 -right-20 md:-right-40 w-40 md:w-80 h-40 md:h-80 rounded-full bg-accent-200/20 dark:bg-accent-400/10 animate-float"
+                    data-speed="0.8">
                 </div>
-                <div class="absolute -bottom-20 md:-bottom-40 -left-20 md:-left-40 w-48 md:w-96 h-48 md:h-96 rounded-full bg-primary-200/10 dark:bg-primary-400/5 animate-float"
-                    style="animation-delay: 1s;"></div>
-                <div class="absolute top-1/2 left-1/4 w-16 md:w-32 h-16 md:h-32 rounded-full bg-success-200/15 dark:bg-success-400/10 animate-float"
-                    style="animation-delay: 2s;"></div>
+                <div class="parallax-layer absolute -bottom-20 md:-bottom-40 -left-20 md:-left-40 w-48 md:w-96 h-48 md:h-96 rounded-full bg-primary-200/20 dark:bg-primary-400/10 animate-float"
+                    style="animation-delay: 1s;" data-speed="0.5"></div>
+                <div class="parallax-layer absolute top-1/2 left-1/4 w-16 md:w-32 h-16 md:h-32 rounded-full bg-success-200/25 dark:bg-success-400/15 animate-float"
+                    style="animation-delay: 2s;" data-speed="1.2"></div>
+                <div class="parallax-layer absolute top-1/3 right-1/3 w-24 md:w-48 h-24 md:h-48 rounded-full bg-blue-200/15 dark:bg-blue-400/8 animate-float"
+                    style="animation-delay: 3s;" data-speed="0.6"></div>
             </div>
 
             <div class="container mx-auto px-4 relative z-10">
                 <div class="max-w-4xl mx-auto text-center">
-                    <div class="mb-6 animate-slide-up">
+                    <div class="mb-6 animate-scale-in">
                         <img src="./assets/foto.png" alt="Hugo Cisneros Amengual"
-                            class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full mx-auto object-cover border-4 border-white dark:border-gray-700 shadow-xl hover-lift pulse-glow">
+                            class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full mx-auto object-cover border-4 border-white dark:border-gray-700 shadow-xl hover-lift pulse-glow glow-on-hover">
                     </div>
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-slide-up"
-                        style="animation-delay: 0.1s;">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-fade-in-up stagger-1">
                         Hi, I'm <span class="text-blue-800 dark:text-blue-400 font-bold">Hugo Cisneros</span>
                     </h2>
-                    <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 mb-6 animate-slide-up"
-                        style="animation-delay: 0.2s;">
+                    <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 mb-6 animate-fade-in-up stagger-2">
                         Computer Science Graduate | Cybersecurity Specialist
                     </p>
-                    <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl lg:max-w-3xl mx-auto mb-8 animate-slide-up"
-                        style="animation-delay: 0.3s;">
+                    <p class="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl lg:max-w-3xl mx-auto mb-8 animate-fade-in-up stagger-3">
                         Passionate about building secure, intelligent systems that solve real-world problems through AI,
                         cybersecurity, and IoT innovation.
                     </p>
 
                     <!-- Value Bullets -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mt-8 md:mt-12">
-                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-slide-up"
-                            style="animation-delay: 0.4s;">
+                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover animate-fade-in-up stagger-4">
                             <div class="mb-3">
                                 <i data-lucide="shield-check"
                                     class="w-6 h-6 md:w-8 md:h-8 text-accent-600 dark:text-accent-400 mx-auto"></i>
@@ -703,8 +860,7 @@
                             <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">EC-Council CND certified in
                                 enterprise security</p>
                         </div>
-                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-slide-up"
-                            style="animation-delay: 0.5s;">
+                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover animate-fade-in-up stagger-5">
                             <div class="mb-3">
                                 <i data-lucide="code-2"
                                     class="w-6 h-6 md:w-8 md:h-8 text-primary-600 dark:text-primary-400 mx-auto"></i>
@@ -714,8 +870,7 @@
                             <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">React, Next.js, TypeScript,
                                 Docker expertise</p>
                         </div>
-                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-slide-up"
-                            style="animation-delay: 0.6s;">
+                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover animate-fade-in-up stagger-6">
                             <div class="mb-3">
                                 <i data-lucide="brain"
                                     class="w-6 h-6 md:w-8 md:h-8 text-success-600 dark:text-success-400 mx-auto"></i>
@@ -725,8 +880,7 @@
                             <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400">Machine learning and
                                 intelligent systems</p>
                         </div>
-                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-slide-up"
-                            style="animation-delay: 0.7s;">
+                        <div class="glass-effect p-4 md:p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover animate-fade-in-up stagger-7">
                             <div class="mb-3">
                                 <i data-lucide="globe"
                                     class="w-6 h-6 md:w-8 md:h-8 text-accent-600 dark:text-accent-400 mx-auto"></i>
@@ -777,7 +931,7 @@
                                         – Jun 2025</span>
                                 </div>
                                 <div
-                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover">
                                     <h3 class="text-xl font-bold mb-2">Software Development Intern</h3>
                                     <p class="text-emerald-600 dark:text-emerald-400 font-medium mb-3">Universidad
                                         Francisco de Vitoria</p>
@@ -787,17 +941,17 @@
                                     </p>
                                     <div class="flex flex-wrap gap-2">
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">PostgreSQL</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">PostgreSQL</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Next.js</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Next.js</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">React</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">React</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">TypeScript</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">TypeScript</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Docker</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Docker</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Agile</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Agile</span>
                                     </div>
                                 </div>
                             </div>
@@ -814,7 +968,7 @@
                                         – Sep 2024</span>
                                 </div>
                                 <div
-                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover">
                                     <h3 class="text-xl font-bold mb-2">Computer Science Intern</h3>
                                     <p class="text-emerald-600 dark:text-emerald-400 font-medium mb-3">HPE CDS, a
                                         Hewlett Packard Enterprise company</p>
@@ -824,17 +978,17 @@
                                     </p>
                                     <div class="flex flex-wrap gap-2">
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Java</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Java</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">React.js</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">React.js</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Apache
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Apache
                                             Jena</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Graph
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Graph
                                             Databases</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">DevOps</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">DevOps</span>
                                     </div>
                                 </div>
                             </div>
@@ -851,7 +1005,7 @@
                                         – Jan 2024</span>
                                 </div>
                                 <div
-                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover">
                                     <h3 class="text-xl font-bold mb-2">Product Owner</h3>
                                     <p class="text-emerald-600 dark:text-emerald-400 font-medium mb-3">The Hague
                                         University (Netherlands)</p>
@@ -861,12 +1015,12 @@
                                     </p>
                                     <div class="flex flex-wrap gap-2">
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Project
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Project
                                             Management</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Teamwork</span>
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Teamwork</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Problem
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Problem
                                             Solving</span>
                                     </div>
                                 </div>
@@ -884,7 +1038,7 @@
                                         – Jun 2023</span>
                                 </div>
                                 <div
-                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+                                    class="mt-2 md:mt-0 glass-effect p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover-lift card-hover">
                                     <h3 class="text-xl font-bold mb-2">IT Support and Development Intern</h3>
                                     <p class="text-emerald-600 dark:text-emerald-400 font-medium mb-3">Universidad
                                         Francisco de Vitoria</p>
@@ -894,13 +1048,13 @@
                                     </p>
                                     <div class="flex flex-wrap gap-2">
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Web
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Web
                                             Applications</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Computer
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">Computer
                                             Maintenance</span>
                                         <span
-                                            class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">IT
+                                            class="skill-badge px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs rounded-full">IT
                                             Support</span>
                                     </div>
                                 </div>
@@ -962,7 +1116,7 @@
                                         <i data-lucide="shield" class="w-6 h-6 text-white"></i>
                                     </div>
                                     <div
-                                        class="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-100 dark:border-blue-800/30">
+                                        class="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-100 dark:border-blue-800/30 card-hover">
                                         <div class="flex items-start justify-between mb-3">
                                             <div>
                                                 <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-1">
@@ -991,7 +1145,7 @@
                                         <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
                                     </div>
                                     <div
-                                        class="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                                        class="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover">
                                         <div class="flex items-start justify-between mb-3">
                                             <div>
                                                 <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-1">
@@ -1014,7 +1168,7 @@
                                         <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
                                     </div>
                                     <div
-                                        class="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                                        class="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 card-hover">
                                         <div class="flex items-start justify-between mb-3">
                                             <div>
                                                 <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-1">
@@ -1043,7 +1197,7 @@
                             <div class="space-y-4">
                                 <!-- Spanish -->
                                 <div
-                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300">
+                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 card-hover">
                                     <div class="flex items-center justify-between mb-3">
                                         <div class="flex items-center gap-3">
                                             <div
@@ -1070,7 +1224,7 @@
 
                                 <!-- English -->
                                 <div
-                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300">
+                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 card-hover">
                                     <div class="flex items-center justify-between mb-3">
                                         <div class="flex items-center gap-3">
                                             <div
@@ -1105,7 +1259,7 @@
                             <div class="grid md:grid-cols-3 gap-6">
                                 <!-- Development -->
                                 <div
-                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 card-hover">
                                     <div class="flex items-center gap-3 mb-6">
                                         <div
                                             class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/40 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -1117,30 +1271,30 @@
                                     <div class="space-y-3">
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">JavaScript</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">JavaScript</span>
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">TypeScript</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">TypeScript</span>
                                         </div>
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Java</span>
+                                                class="skill-badge px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Java</span>
                                             <span
-                                                class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Python</span>
+                                                class="skill-badge px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Python</span>
                                         </div>
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">React.js</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">React.js</span>
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Next.js</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Next.js</span>
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Node.js</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Node.js</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Databases & DevOps -->
                                 <div
-                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 card-hover">
                                     <div class="flex items-center gap-3 mb-6">
                                         <div
                                             class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/40 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -1153,30 +1307,30 @@
                                     <div class="space-y-3">
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">PostgreSQL</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">PostgreSQL</span>
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Prisma</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Prisma</span>
                                         </div>
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Graph
+                                                class="skill-badge px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Graphedium">Graph
                                                 Databases</span>
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Docker</span>
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Docker</span>
                                         </div>
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Apache
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Apache
                                                 Jena</span>
                                             <span
-                                                class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">IaC</span>
+                                                class="skill-badge px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">IaC</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Cybersecurity & AI -->
                                 <div
-                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                                    class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 card-hover">
                                     <div class="flex items-center gap-3 mb-6">
                                         <div
                                             class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/40 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -1189,25 +1343,25 @@
                                     <div class="space-y-3">
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Network
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Network
                                                 Security</span>
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Intrusion
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Intrusion
                                                 Detection</span>
                                         </div>
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Wireshark</span>
+                                                class="skill-badge px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">Wireshark</span>
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Machine
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Machine
                                                 Learning</span>
                                         </div>
                                         <div class="flex flex-wrap gap-2">
                                             <span
-                                                class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Data
+                                                class="skill-badge px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-lg text-sm font-medium">Data
                                                 Mining</span>
                                             <span
-                                                class="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">IoT</span>
+                                                class="skill-badge px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">IoT</span>
                                         </div>
                                     </div>
                                 </div>

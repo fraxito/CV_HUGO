@@ -454,10 +454,114 @@ function initializeSectionTransitions() {
 
 // Contact Form Handler - moved to main DOMContentLoaded
 
+// Parallax Effect - Mejorado
+function initParallax() {
+    const heroSection = document.getElementById('hero-section');
+    if (!heroSection) {
+        console.warn('Hero section not found for parallax');
+        return;
+    }
+    
+    const parallaxLayers = heroSection.querySelectorAll('.parallax-layer');
+    console.log('Parallax layers found:', parallaxLayers.length);
+    
+    if (parallaxLayers.length === 0) return;
+    
+    let ticking = false;
+    
+    const updateParallax = () => {
+        const scrolled = window.pageYOffset;
+        const heroHeight = heroSection.offsetHeight;
+        const heroTop = heroSection.offsetTop;
+        const heroBottom = heroTop + heroHeight;
+        
+        // Solo aplicar parallax cuando el hero está visible en viewport
+        if (scrolled < heroBottom) {
+            parallaxLayers.forEach((layer, index) => {
+                const speed = parseFloat(layer.dataset.speed) || 0.5;
+                const yPos = -(scrolled * speed);
+                
+                // Añadir también un pequeño movimiento horizontal para más profundidad
+                const xPos = Math.sin(scrolled * 0.001 + index) * 10;
+                
+                layer.style.transform = `translate(${xPos}px, ${yPos}px)`;
+                layer.style.opacity = 1 - (scrolled / heroHeight) * 0.5; // Fade out gradual
+            });
+        }
+    };
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateParallax();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    
+    // Ejecutar una vez al cargar
+    updateParallax();
+}
+
+// Animate skills on scroll
+function initSkillsAnimation() {
+    const skillBadges = document.querySelectorAll('.skill-badge');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Añadir delay escalonado
+                setTimeout(() => {
+                    entry.target.classList.add('animate-scale-in');
+                }, index * 50); // 50ms entre cada badge
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    skillBadges.forEach(badge => {
+        observer.observe(badge);
+    });
+}
+
+// Animate cards on scroll
+function initCardsAnimation() {
+    const cards = document.querySelectorAll('.card-hover');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in-up');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+}
+
 // Re-initialize smooth scrolling after window load (por si falla en DOMContentLoaded)
 window.addEventListener('load', function () {
     setTimeout(() => {
         initializeSmoothScrolling();
+        
+        // Inicializar parallax y animaciones
+        initParallax();
+        initSkillsAnimation();
+        initCardsAnimation();
 
         // MÉTODO DE FUERZA BRUTA PARA SAFARI MÓVIL
         if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
