@@ -445,7 +445,8 @@
         /* Iconos del toggle de modo oscuro - lógica simplificada */
         #lightIcon {
             display: block;
-            color: #f59e0b; /* yellow-500 más oscuro para mejor contraste */
+            color: #f59e0b;
+            /* yellow-500 más oscuro para mejor contraste */
             stroke: #f59e0b;
         }
 
@@ -503,39 +504,40 @@
         header a {
             position: relative;
         }
-        
+
         /* Mejorar enlaces en móviles */
         @media (pointer: coarse) {
             a[href^="#"] {
                 touch-action: manipulation;
-                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
                 cursor: pointer;
             }
-            
+
             /* Asegurar que los botones del navbar sean táctiles */
-            header a, header button {
+            header a,
+            header button {
                 min-height: 44px;
                 min-width: 44px;
                 touch-action: manipulation;
             }
         }
-        
+
         /* Específico para Safari */
         @supports (-webkit-appearance: none) {
             html {
                 scroll-behavior: auto !important;
             }
-            
+
             a[href^="#"] {
                 -webkit-touch-callout: none;
                 -webkit-user-select: none;
                 user-select: none;
             }
-            
+
             /* Safari iOS específico */
             @media screen and (-webkit-min-device-pixel-ratio: 2) {
                 a[href^="#"]:active {
-                    background-color: rgba(0,0,0,0.1);
+                    background-color: rgba(0, 0, 0, 0.1);
                     border-radius: 4px;
                 }
             }
@@ -618,7 +620,7 @@
 
                     <!-- Contact Button -->
                     <a href="#contact"
-                        onclick="console.log('Contact button clicked direct'); event.preventDefault(); document.getElementById('contact').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
+                        onclick="event.preventDefault(); document.getElementById('contact').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;"
                         class="p-2 md:px-3 md:py-1.5 bg-blue-600/90 hover:bg-blue-700 rounded-md transition-colors backdrop-blur-sm flex items-center justify-center gap-2"
                         style="-webkit-tap-highlight-color: rgba(0,0,0,0); touch-action: manipulation;"
                         aria-label="Contact">
@@ -634,13 +636,14 @@
                     <a href="./assets/Hugo_Cisneros_CV.pdf" download
                         class="p-2 md:px-3 md:py-1.5 bg-white/15 dark:bg-gray-800/30 backdrop-blur-sm border border-white/20 dark:border-gray-600/20 hover:bg-white/25 dark:hover:bg-gray-700/40 rounded-md transition-colors flex items-center justify-center gap-2"
                         aria-label="Download CV">
-                        <svg class="w-4 h-4 text-blue-700 dark:text-blue-300 md:hidden" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-blue-700 dark:text-blue-300 md:hidden" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                             </path>
                         </svg>
-                        <span class="hidden md:inline text-blue-700 dark:text-blue-300 text-sm font-medium">Download CV</span>
+                        <span class="hidden md:inline text-blue-700 dark:text-blue-300 text-sm font-medium">Download
+                            CV</span>
                     </a>
                 </div>
             </div>
@@ -1474,32 +1477,38 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 py-8 md:py-12 transition-colors duration-300">
+    <footer
+        class="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 py-8 md:py-12 transition-colors duration-300">
         <div class="container mx-auto px-4">
             <div class="max-w-6xl mx-auto">
                 <!-- Main Footer Content -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
                     <!-- About Section -->
                     <div class="text-center md:text-left">
-                        <h3 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Hugo Cisneros</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm md:text-base">Computer Science graduate passionate
+                        <h3 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">Hugo
+                            Cisneros</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm md:text-base">Computer Science graduate
+                            passionate
                             about cybersecurity, AI, and building innovative solutions.</p>
                         <div class="flex gap-3 justify-center md:justify-start">
                             <a href="https://www.linkedin.com/in/hugo-cisneros-amengual" target="_blank"
                                 rel="noopener noreferrer"
                                 class="p-3 bg-white dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-primary-500 rounded-lg transition-all duration-300 hover-lift shadow-md flex items-center justify-center"
                                 aria-label="LinkedIn Profile">
-                                <i data-lucide="linkedin" class="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-white"></i>
+                                <i data-lucide="linkedin"
+                                    class="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-white"></i>
                             </a>
                             <a href="mailto:hugocisnerosamengual@gmail.com"
                                 class="p-3 bg-white dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-primary-500 rounded-lg transition-all duration-300 hover-lift shadow-md flex items-center justify-center"
                                 aria-label="Email">
-                                <i data-lucide="mail" class="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-white"></i>
+                                <i data-lucide="mail"
+                                    class="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-white"></i>
                             </a>
                             <a href="tel:+34635809812"
                                 class="p-3 bg-white dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-primary-500 rounded-lg transition-all duration-300 hover-lift shadow-md flex items-center justify-center"
                                 aria-label="Phone">
-                                <i data-lucide="phone" class="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-white"></i>
+                                <i data-lucide="phone"
+                                    class="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-white"></i>
                             </a>
                         </div>
                     </div>
@@ -1526,7 +1535,8 @@
                 <div class="border-t border-gray-300 dark:border-gray-700 pt-6 md:pt-8">
                     <div
                         class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-4 text-center">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">© 2025 Hugo Cisneros Amengual. All rights reserved.</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">© 2025 Hugo Cisneros Amengual. All rights
+                            reserved.</p>
                         <div class="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                             <span>Made with</span>
                             <i data-lucide="heart" class="w-4 h-4 text-red-500 dark:text-red-400"></i>
